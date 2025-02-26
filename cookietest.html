@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cookie Test</title>
+</head>
+<body>
+    <h1>First-Party Cookie Test</h1>
+    <button onclick="setCookie()">Set Cookie</button>
+    <button onclick="getCookie()">Get Cookie</button>
+    <p id="cookieValue"></p>
+
+    <script>
+        function setCookie() {
+            document.cookie = "testCookie=12345; path=/; Secure; SameSite=Lax";
+            alert("Cookie Set!");
+        }
+
+        function getCookie() {
+            alert("Cookies: " + document.cookie);
+            document.getElementById("cookieValue").innerText = "Cookies: " + document.cookie;
+        }
+    </script>
+</body>
+</html>
