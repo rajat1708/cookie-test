@@ -14,18 +14,14 @@
 
     <script>
         function setCookie() {
-            document.cookie = "testCookie=12345; path=/; Secure; SameSite=None; max-age=3600"; // 1-hour expiry
+            document.cookie = "testCookie=12345; path=/; Secure; HttpOnly; SameSite=None; max-age=3600";
+            fetch("/set-cookie", { credentials: "include" }); // Ensures server also sets a cookie
             alert("✅ Cookie Set!");
         }
 
         function getCookie() {
-            let cookies = document.cookie;
-            if (cookies) {
-                alert("🍪 Cookies: " + cookies);
-                document.getElementById("cookieValue").innerText = "Stored Cookies: " + cookies;
-            } else {
-                alert("🚫 No cookies found!");
-            }
+            alert("Cookies: " + document.cookie);
+            document.getElementById("cookieValue").innerText = "Stored Cookies: " + document.cookie;
         }
 
         function deleteCookie() {
