@@ -1,23 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Test</title>
 </head>
 <body>
     <h1>First-Party Cookie Test</h1>
     <button onclick="setCookie()">Set Cookie</button>
     <button onclick="getCookie()">Get Cookie</button>
+    <button onclick="deleteCookie()">Delete Cookie</button>
     <p id="cookieValue"></p>
 
     <script>
         function setCookie() {
-            document.cookie = "testCookie=12345; path=/; Secure; SameSite=Lax";
-            alert("Cookie Set!");
+            document.cookie = "testCookie=12345; path=/; Secure; SameSite=None; max-age=3600"; // 1-hour expiry
+            alert("✅ Cookie Set!");
         }
 
         function getCookie() {
-            alert("Cookies: " + document.cookie);
-            document.getElementById("cookieValue").innerText = "Cookies: " + document.cookie;
+            let cookies = document.cookie;
+            if (cookies) {
+                alert("🍪 Cookies: " + cookies);
+                document.getElementById("cookieValue").innerText = "Stored Cookies: " + cookies;
+            } else {
+                alert("🚫 No cookies found!");
+            }
+        }
+
+        function deleteCookie() {
+            document.cookie = "testCookie=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+            alert("🗑️ Cookie Deleted!");
         }
     </script>
 </body>
