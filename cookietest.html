@@ -7,26 +7,48 @@
 </head>
 <body>
     <h1>First-Party Cookie Test</h1>
-    <button onclick="setCookie()">Set Cookie</button>
-    <button onclick="getCookie()">Get Cookie</button>
-    <button onclick="deleteCookie()">Delete Cookie</button>
+    <button onclick="setCookie('testCookie', '12345', 1)">Set Cookie</button>
+    <button onclick="showCookie()">Get Cookie</button>
+    <button onclick="deleteCookie('testCookie')">Delete Cookie</button>
     <p id="cookieValue"></p>
 
     <script>
-        function setCookie() {
-            document.cookie = "testCookie=12345; path=/; Secure; HttpOnly; SameSite=None; max-age=3600";
-            fetch("/set-cookie", { credentials: "include" }); // Ensures server also sets a cookie
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
             alert("✅ Cookie Set!");
         }
 
-        function getCookie() {
-            alert("Cookies: " + document.cookie);
-            document.getElementById("cookieValue").innerText = "Stored Cookies: " + document.cookie;
+        // Function to get a cookie
+        function getCookie(name) {
+            let nameEQ = name + "=";
+            let cookiesArray = document.cookie.split(';');
+            for (let i = 0; i < cookiesArray.length; i++) {
+                let cookie = cookiesArray[i].trim();
+                if (cookie.indexOf(nameEQ) === 0) {
+                    return decodeURIComponent(cookie.substring(nameEQ.length));
+                }
+            }
+            return null;
         }
 
-        function deleteCookie() {
-            document.cookie = "testCookie=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        // Function to delete a cookie
+        function deleteCookie(name) {
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             alert("🗑️ Cookie Deleted!");
+        }
+
+        // Function to show the cookie in UI
+        function showCookie() {
+            let cookieValue = getCookie("testCookie");
+            alert("Stored Cookie: " + (cookieValue ? cookieValue : "No cookie found"));
+            document.getElementById("cookieValue").innerText = "Stored Cookie: " + (cookieValue ? cookieValue : "No cookie found");
         }
     </script>
 </body>
